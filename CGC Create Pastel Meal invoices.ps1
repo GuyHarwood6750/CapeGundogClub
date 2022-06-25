@@ -3,7 +3,6 @@
         Modify the $endR (endrow) required.
 #>
 $inspreadsheet = 'C:\Users\Guy\Dropbox\CGC\2022\_Meals\Meal Orders 2022.xlsx'     #Spreadsheet from Booking System
-#$inspreadsheet = 'C:\Users\Guy\Dropbox\CGC\2022\_Entries\Limit 2022 Entries.xlsm'     #Spreadsheet from Booking System
 $startR = 1                                     #Start row
 $endR =  4                                   #End Row
 $startCol = 1                                   #Start Col (don't change)
