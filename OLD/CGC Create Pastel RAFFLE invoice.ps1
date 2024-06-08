@@ -2,14 +2,14 @@
         Modify the $startR (Startrow) if required.
         Modify the $endR (endrow) required.
 #>
-$inspreadsheet = 'C:\Users\Guy\Dropbox\CGC\2022\_Meals\Meal Orders 2022.xlsx'     #Spreadsheet from Booking System
+$inspreadsheet = 'C:\Users\Guy\Dropbox\CGC\2022\Training\10September 2022\Cape Gundog Club - Training Registration - 10th & 11th September 2022.xlsx'     #Spreadsheet from Booking System
 $startR = 1                                     #Start row
-$endR =  4                                   #End Row
+$endR =  11                                   #End Row
 $startCol = 1                                   #Start Col (don't change)
-$endCol = 6                                    #End Col (don't change)
+$endCol = 7                                    #End Col (don't change)
 $csvfile = 'Filter1.csv'                                        
 $csvfile2 = 'Filter2NHDR.csv'
-$pastelfile = 'Pastel_Meal_Invoices.txt'                     #Invoice file to be imported into Pastel.
+$pastelfile = 'Pastel_Invoices.txt'                     #Invoice file to be imported into Pastel.
 $pathout = 'C:\userdata\cgc local\Invoices\'
 $custsheet = 'Invoice'                           #Customer worksheet IN $inspreadsheet (do not change)
 #
@@ -32,21 +32,24 @@ if (Test-Path $outfile3) { Remove-Item $outfile3 }
 
 $invoicedate = (Get-Date -UFormat "%d/%m/%Y")
 
-$data = Import-Csv -path $Outfile2 -header accnum, name, dog, amt, event
+$data = Import-Csv -path $Outfile2 -header accnum, name, dog, amt, event, eventdate
 
 $prevaccnum = 0
 
 foreach ($aObj in $data) {
     
     if ($aObj.accnum -eq "") {Break} 
-
+    
     #Return Pastel accounting period based on the transaction date.
     $pastelper = PastelPeriods -transactiondate $invoicedate
     
     Switch ($aObj.event) {
+        ACCOM {$incomeAcc = '1550000'}
         FT {$incomeAcc = '1000000'}
         LIMIT {$incomeAcc = '1000000'}
         MEALS {$incomeAcc = '1200010'}
+        RAFFLE {$incomeAcc = '1300000'}
+        LANYARD {$incomeAcc = '1300000'}
         REFRESHMENTS {$incomeAcc = '1200011'}
         TRAINING {$incomeAcc = '1400000'}
     }
